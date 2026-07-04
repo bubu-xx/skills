@@ -94,7 +94,18 @@ status: draft | slice-ok | frozen
 
 ### ディレクトリ構成
 
-フラット1階層: `skills/<スキル名>/SKILL.md`。工程カテゴリは下表の索引列であって、ディレクトリではない。
+種類で2階層: `skills/<種類>/<スキル名>/SKILL.md`（種類 = `mode` | `generator` | `orchestrator`）。
+工程カテゴリは下表の索引列であって、ディレクトリではない。フラット配置と混在させない（浅い SKILL.md が優先され発見が壊れる）。
+
+### 起動方式
+
+- Mode / Generator は自動起動可（description のトリガー語で発動）
+- **Orchestrator は明示起動のみ**（`disable-model-invocation: true`）。「アジャイルの話をしただけで /agile が走る」誤発火を防ぐ
+
+### 各スキルの必須節
+
+frontmatter（name / description）、契約ブロック、**防ぐ失敗**（このスキルが無いとき何が起きるかの1〜2行＋具体例1個）。
+`python scripts/validate_skills.py` で機械チェックできる。
 
 ---
 
@@ -210,4 +221,4 @@ status: draft | slice-ok | frozen
    - セッションをまたいだ再開が成果物から再導出できるか
 2. 使って問題が出たスキルから直す。**使っていないスキルの推敲はしない**
 3. △要検討（`bdd` `scrum`/`kanban`）は運用で必要性が実証されたら実装
-4. 新スキルの雛形: Mode は `skills/grill`、Generator は `skills/user-story`、Orchestrator は `skills/waterfall`
+4. 新スキルの雛形: Mode は `skills/mode/grill`、Generator は `skills/generator/user-story`、Orchestrator は `skills/orchestrator/waterfall`。作ったら `python scripts/validate_skills.py` を通す
